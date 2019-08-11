@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <style>
+            body {
+                margin: 10;
+            }
+        </style>
+    </head>
+    <body>
+        Add bookmark
+        <form name="add" method="post">
+            {% csrf_token %}
+            Url
+            <input type="text" name="url">
+            <input type="submit" value="Add">
+        </form>
+        <a href="{% url 'show' %}">Show bookmarks</a>
+        {% if added %}
+            <p style="color:#00FF00">Bookmark added</p>
+        {% endif %}
+        {% if in_db %}
+            <p style="color:#FF0000">Url already in bookmarks</p>
+        {% endif %}
+        {% if incorrect_url %}
+            <p style="color:#FF0000">Incorrect url</p>
+        {% endif %}
+    </body>
+</html>

@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <style>
+            body {
+                margin: 10;
+            }
+        </style>
+    </head>
+    <body>
+        Registration page
+        <form name="register" method="post">
+            {% csrf_token %}
+            Username:
+            <input type="text" name="name">
+            Email
+            <input type="text" name="email">
+            Password
+            <input type="password" name="password">
+            <input type="submit" value="register">
+         </form>
+         {% if no_name %}
+            <p style="color:#FF0000">Enter username</p>
+         {% endif %}
+         {% if exist %}
+            <p style="color:#FF0000">User already exist</p>
+         {% endif %}
+    </body>
+</html>
