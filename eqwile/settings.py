@@ -25,7 +25,7 @@ SECRET_KEY = '8bwvei10vd*d@ed#axn=-#-s*_z424v*u!xy0np0s&yh8q#an@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["bookmark-django-service.herokuapp.com"]
+ALLOWED_HOSTS = ["bookmark-django-service.herokuapp.com", "127.0.0.1"]
 
 
 # Application definition
@@ -122,14 +122,14 @@ STATIC_URL = '/static/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-PROJECT_ROOT   =   os.path.join(os.path.abspath(__file__))
-STATIC_ROOT  =   os.path.join(PROJECT_ROOT, '../staticfiles')
+PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
+STATIC_ROOT =  os.path.join(PROJECT_ROOT, '../staticfiles')
 STATIC_URL = '/static/'
 
 # Extra lookup directories for collectstatic to find static files
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, '../static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(PROJECT_ROOT, '../static'),
+# )
 
 # Add configuration for static files storage using whitenoise
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
