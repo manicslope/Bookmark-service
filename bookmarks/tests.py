@@ -1,5 +1,5 @@
 from django.test import TestCase
-from bookmarks.views import parse_meta
+from bookmarks.views import parse_meta, correct_url
 
 
 class IndexTest(TestCase):
@@ -25,6 +25,16 @@ class RegisterTest(TestCase):
         data = {"name": "", "password": "", "email": ""}
         response = self.client.post("/bookmarks/register/", data)
         self.assertContains(response, "Enter username")
+
+
+class TestUrl(TestCase):
+
+    def test_correct_url(self):
+        self.assertEqual(correct_url(""), False)
+        self.assertEqual(correct_url("1"), False)
+        self.assertEqual(correct_url("vk.com"), True)
+        self.assertEqual(correct_url("www.vk.com"), True)
+        self.assertEqual(correct_url("http://www.vk.com"), True)
 
 
 class TestParse(TestCase):

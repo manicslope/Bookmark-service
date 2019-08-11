@@ -7,6 +7,14 @@ import requests
 from bs4 import BeautifulSoup
 
 
+def correct_url(url):
+    try:
+        requests.get(url)
+        return True
+    except:
+        return False
+
+
 def parse_meta(url):
     """
     Parses url for meta data
@@ -135,27 +143,25 @@ def add_bookmark(request):
     in_db = False
     if request.POST:
         url = request.POST["url"]
-        parts = ["www.", "http://"]
-        for part in parts:
-            if not url.startswith(part):
-                url = part + url
-        if url == "'http://www.":
-            if requests.get(url).status_code == 200:
-                username = request.user.username
-                if Bookmark.objects.filter(username=username, url=url).count():
-                    in_db = True
-                else:
-                    metadata = parse_meta(url)
-                    bookmark = Bookmark(username=username,
-                                        url=url, title=metadata["title"],
-                                        favicon=metadata["favicon"],
-                                        description=metadata["description"])
-                    bookmark.save()
-                    added = True
+        if not url.startswith("http://www."):
+            if not url.startswith("www."):
+                url = "http://www." + url
             else:
-                incorrect_url = True
+                url = "http://" + url
+        if correct_url(url):
+            username = request.user.username
+            if Bookmark.objects.filter(username=username, url=url).count():
+                in_db = True
+            else:
+                metadata = parse_meta(url)
+                bookmark = Bookmark(username=username,
+                                    url=url, title=metadata["title"],
+                                    favicon=metadata["favicon"],
+                                    description=metadata["description"])
+                bookmark.save()
+                added = True
         else:
-            incorrect_url = True
+            incorrect_url = not correct_url(url)
     context = {"incorrect_url": incorrect_url, "added": added, "in_db": in_db}
     return render(request, "bookmarks/add_bookmark.html", context)
 
