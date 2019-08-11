@@ -1,1 +1,1 @@
-    web: gunicorn eqwile.wsgi --log-file -
+web: gunicorn eqwile.wsgi --log-file -
