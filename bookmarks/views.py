@@ -139,18 +139,21 @@ def add_bookmark(request):
         for part in parts:
             if not url.startswith(part):
                 url = part + url
-        if requests.get(url).status_code == 200:
-            username = request.user.username
-            if Bookmark.objects.filter(username=username, url=url).count():
-                in_db = True
+        if url == "'http://www.":
+            if requests.get(url).status_code == 200:
+                username = request.user.username
+                if Bookmark.objects.filter(username=username, url=url).count():
+                    in_db = True
+                else:
+                    metadata = parse_meta(url)
+                    bookmark = Bookmark(username=username,
+                                        url=url, title=metadata["title"],
+                                        favicon=metadata["favicon"],
+                                        description=metadata["description"])
+                    bookmark.save()
+                    added = True
             else:
-                metadata = parse_meta(url)
-                bookmark = Bookmark(username=username,
-                                    url=url, title=metadata["title"],
-                                    favicon=metadata["favicon"],
-                                    description=metadata["description"])
-                bookmark.save()
-                added = True
+                incorrect_url = True
         else:
             incorrect_url = True
     context = {"incorrect_url": incorrect_url, "added": added, "in_db": in_db}
